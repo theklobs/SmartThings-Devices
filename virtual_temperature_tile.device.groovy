@@ -1,5 +1,5 @@
 /**
- *  Virtual Temperature Tile
+ *  Virtual Temperature Tile.
  *
  *  Copyright (c) 2014 Statusbits.com
  *
