@@ -1,7 +1,7 @@
 /**
  *  Quirky/Wink Tripper Contact Sensor
  *
- *  Copyright 2015 Mitch Pond, SmartThings
+ *  Copyright 2015 Mitch Pond
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -32,14 +32,14 @@ metadata {
 
 	// UI tile definitions
 	tiles(scale: 2) {
-		multiAttributeTile(name:"contact", type: "lighting", width: 6, height: 4){
+		multiAttributeTile(name:"contact", type: "lighting", width: 6, height: 4, decoration: "flat"){
 			tileAttribute ("device.contact", key: "PRIMARY_CONTROL") {
 				attributeState "closed", label: "CLOSED", icon: "st.contact.contact.closed", backgroundColor: "#79b821"
 				attributeState "open", label: "OPEN", icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
 			}
-            tileAttribute ("statusText", key: "SECONDARY_CONTROL") {
+/*            tileAttribute ("statusText", key: "SECONDARY_CONTROL") {
            		attributeState "statusText", label:'${currentValue}'       		
-            }
+            } */
 		}        
 		valueTile("battery", "device.battery", width: 3, height: 2, inactiveLabel: false, decoration: "flat") {
 			state "battery", label:'${currentValue}% battery', unit:""
@@ -83,7 +83,7 @@ def parse(String description) {
     def statusTextmsg = ""
     def timeString = new Date().format("h:mma MM-dd-yyyy", location.timeZone)
     statusTextmsg = "Last active: "+timeString
-    sendEvent("name":"statusText", "value":statusTextmsg)
+//    sendEvent("name":"statusText", "value":statusTextmsg)
    
 	return results
 }
