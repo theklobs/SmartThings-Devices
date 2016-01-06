@@ -43,7 +43,7 @@ metadata {
 }
 // tile definitions
 	tiles(scale: 2) {
-		multiAttributeTile(name:"powerDisp", type: "lighting", width: 6, height: 4, decoration: "flat", canChangeIcon: true){
+		multiAttributeTile(name:"powerDisp", type: "lighting", width: 6, height: 4, decoration: "flat", canChangeIcon: true, canChangeBackground: true){
 			tileAttribute ("device.powerDisp", key: "PRIMARY_CONTROL") {
 				attributeState "default", action: "refresh", label: '${currentValue}', icon: "st.switches.light.on", backgroundColor: "#79b821"
 			}
