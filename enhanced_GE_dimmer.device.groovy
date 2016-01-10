@@ -13,7 +13,7 @@
  *
  */
 metadata {
-	definition (name: "My Enhanced GE Dimmer Switch", namespace: "jscgs350", author: "pajaroblanco") {
+	definition (name: "My Enhanced GE Dimmer Switch", namespace: "jscgs350", author: "SmartThings") {
 		capability "Switch Level"
 		capability "Actuator"
 		capability "Indicator"
