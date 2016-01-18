@@ -15,8 +15,6 @@ metadata {
         command "getTemperature"
         command "setZigBeeIdTile"
         command "clearObstruction"
-        
-        attribute "openLevel", "string"
 
         fingerprint endpoint: "1",
         profileId: "0104",
@@ -382,7 +380,6 @@ def setLevel(value) {
     }
 
     sendEvent(name: "level", value: value)
-    sendEvent(name: "openLevel", value: value + "% OPEN")
     
     if (value > 0) {
         sendEvent(name: "switch", value: "on", descriptionText: "${linkText} is on by setting a level")
