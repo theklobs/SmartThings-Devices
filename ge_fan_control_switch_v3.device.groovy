@@ -10,13 +10,13 @@ metadata {
 		capability "Polling"
 		capability "Refresh"
 		capability "Sensor"
-		//capability "speed"
 
 		command "lowSpeed"
 		command "medSpeed"
 		command "highSpeed"
 
 		attribute "currentState", "string"
+        attribute "currentSpeed", "string"
 
 		//fingerprint inClusters: "0x26"
 	}
@@ -37,22 +37,13 @@ metadata {
             }
 		}
 		standardTile("lowSpeed", "device.currentState", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-			state "MED", label: 'LOW', action: "lowSpeed", icon:"st.Home.home30", backgroundColor: "#ffffff"
-			state "HIGH", label: 'LOW', action: "lowSpeed", icon:"st.Home.home30", backgroundColor: "#ffffff"
-			state "OFF", label: 'LOW', action: "lowSpeed", icon:"st.Home.home30", backgroundColor: "#ffffff"
-			state "LOW", label:'LOW', action: "lowSpeed", icon:"st.Home.home30", backgroundColor: "#79b821"
+			state "LOW", label:'LOW', action: "lowSpeed", icon:"st.Home.home30"
   		}
 		standardTile("medSpeed", "device.currentState", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-			state "LOW", label: 'MED', action: "medSpeed", icon:"st.Home.home30", backgroundColor: "#ffffff"
-			state "HIGH", label: 'MED', action: "medSpeed", icon:"st.Home.home30", backgroundColor: "#ffffff"
-			state "OFF", label: 'MED', action: "medSpeed", icon:"st.Home.home30", backgroundColor: "#ffffff"
-			state "MED", label: 'MED', action: "medSpeed", icon:"st.Home.home30", backgroundColor: "#79b821"
+			state "MED", label: 'MED', action: "medSpeed", icon:"st.Home.home30"
 		}
 		standardTile("highSpeed", "device.currentState", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-			state "LOW", label: 'HIGH', action: "highSpeed", icon:"st.Home.home30", backgroundColor: "#ffffff"
-			state "MED", label: 'HIGH', action: "highSpeed", icon:"st.Home.home30", backgroundColor: "#ffffff"
-			state "OFF", label: 'HIGH', action: "highSpeed", icon:"st.Home.home30", backgroundColor: "#ffffff"
-			state "HIGH", label: 'HIGH', action: "highSpeed", icon:"st.Home.home30", backgroundColor: "#79b821"
+			state "HIGH", label: 'HIGH', action: "highSpeed", icon:"st.Home.home30"
 		}
 		standardTile("refresh", "device.switch", inactiveLabel: false, decoration: "flat", width: 3, height: 2) {
 			state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
@@ -61,9 +52,6 @@ metadata {
 			state "when off", action:"indicator.indicatorWhenOn", icon:"st.indicators.lit-when-off"
 			state "when on", action:"indicator.indicatorNever", icon:"st.indicators.lit-when-on"
 			state "never", action:"indicator.indicatorWhenOff", icon:"st.indicators.never-lit"
-		}
-		controlTile("levelSliderControl", "device.level", "slider", height: 2, width: 2, inactiveLabel: false) {
-			state "level", action:"switch level.setLevel"
 		}
         valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
 			state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
@@ -100,7 +88,7 @@ def parse(String description) {
 	}
 	log.debug "Parse returned ${result?.descriptionText}"
     def statusTextmsg = ""
-    statusTextmsg = "Current fan speed setting is ${device.currentState('currentSpeed').value}."
+    statusTextmsg = "Fan speed is set to ${device.currentState('currentSpeed').value}"
     sendEvent("name":"statusText", "value":statusTextmsg)
 	result
 }
@@ -154,8 +142,8 @@ def createEvent(physicalgraph.zwave.commands.switchmultilevelv1.SwitchMultilevel
 
 def doCreateEvent(physicalgraph.zwave.Command cmd, Map item1) {
 	def result = [item1]
-	def lowThresholdvalue = (settings.lowThreshold != null && settings.lowThreshold != "") ? settings.lowThreshold.toString() : "33"
-	def medThresholdvalue = (settings.medThreshold != null && settings.medThreshold != "") ? settings.medThreshold.toString() : "67"
+	def lowThresholdvalue = (settings.lowThreshold != null && settings.lowThreshold != "") ? settings.lowThreshold.toString() : "30"
+	def medThresholdvalue = (settings.medThreshold != null && settings.medThreshold != "") ? settings.medThreshold.toString() : "62"
 	def highThresholdvalue = (settings.highThreshold != null && settings.highThreshold != "") ? settings.highThreshold.toString() : "99"
 
 	item1.name = "switch"
@@ -181,12 +169,15 @@ def doCreateEvent(physicalgraph.zwave.Command cmd, Map item1) {
 
 		if (item2.value <= lowThresholdvalue) {
 			sendEvent(name: "currentState", value: "LOW" as String)
+            sendEvent(name: "currentSpeed", value: "LOW" as String)
 		}
 		if (item2.value >= lowThresholdvalue+1 && item2.value <= medThresholdvalue) {
 			sendEvent(name: "currentState", value: "MED" as String)
+            sendEvent(name: "currentSpeed", value: "MED" as String)
 	 	}
 		if (item2.value >= medThresholdvalue+1) {
 			sendEvent(name: "currentState", value: "HIGH" as String)
+            sendEvent(name: "currentSpeed", value: "HIGH" as String)
 		}
 
 		result << item2
