@@ -28,8 +28,6 @@ metadata {
         command "ventLevelUp"
         command "ventLevelDown"
 
-        attribute "openLevel", "string"
-
         fingerprint endpoint: "1",
         profileId: "0104",
         inClusters: "0000,0001,0003,0004,0005,0006,0008,0020,0402,0403,0B05,FC01,FC02",
@@ -115,9 +113,6 @@ metadata {
         valueTile("zigbeeId", "device.zigbeeId", inactiveLabel: true, decoration: "flat") {
             state "serial", label:'${currentValue}', backgroundColor:"#ffffff"
         }
-        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
-			state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
-		}
         
         main "switch"
         details(["switch", "ventTen", "ventTwenty", "ventThirty", "ventForty", "ventFifty", "ventLevelUp", "ventSixty", "ventSeventy", "ventEighty", "ventNinety", "ventHundred", "ventLevelDown", "temperature", "pressure", "battery", "refresh", "configure"])
@@ -143,10 +138,6 @@ def parse(String description) {
     }
 
     log.debug "Parse returned $map"
-    
-    def statusTextmsg = ""
-    statusTextmsg = "Vent set to ${device.currentState('openLevel')?.value} when open"
-    sendEvent("name":"statusText", "value":statusTextmsg)
     
     return map ? createEvent(map) : null
 }
@@ -442,7 +433,6 @@ def setLevel(value) {
     }
 
     sendEvent(name: "level", value: value)
-    sendEvent(name: "openLevel", value: value + "%")
     
     if (value > 0) {
         sendEvent(name: "switch", value: "on", descriptionText: "${linkText} is on by setting a level")
