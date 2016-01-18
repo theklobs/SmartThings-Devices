@@ -15,6 +15,8 @@ metadata {
         command "getTemperature"
         command "setZigBeeIdTile"
         command "clearObstruction"
+        
+        attribute "openLevel", "string"
 
         fingerprint endpoint: "1",
         profileId: "0104",
@@ -26,7 +28,7 @@ metadata {
     tiles(scale: 2) {
         multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
             tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-                attributeState "on", action: "switch.off", label: "OPEN", icon: "st.vents.vent-open", backgroundColor: "#53a7c0"
+                attributeState "on", action: "switch.off", label: 'OPEN', icon: "st.vents.vent-open", backgroundColor: "#53a7c0"
                 attributeState "off", action: "switch.on", label: "CLOSED", icon: "st.vents.vent-open", backgroundColor: "#ffffff"
                 attributeState "obstructed", action: "clearObstruction", label: "OBSTRUCTION", icon: "st.vents.vent-open", backgroundColor: "#ff0000"
                 attributeState "clearing", action: "", label: "CLEARING", icon: "st.vents.vent-open", backgroundColor: "#ffff33"
@@ -51,7 +53,7 @@ metadata {
             state "pressure", label: 'Barometric\nPressure\n${currentValue}Hg', backgroundColor:"#ffffff"
         }        
         valueTile("battery", "device.battery", inactiveLabel: false, width: 2, height: 2, decoration: "flat") {
-            state "battery", label: 'Battery\n${currentValue}%', backgroundColor:"#ffffff"
+            state "battery", label: 'Battery \n${currentValue}%', backgroundColor:"#ffffff"
         }
         standardTile("refresh", "device.power", inactiveLabel: false, width: 3, height: 2, decoration: "flat") {
             state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
@@ -189,6 +191,7 @@ private Map makeOnOffResult(rawValue) {
     log.debug "makeOnOffResult: ${rawValue}"
     def linkText = getLinkText(device)
     def value = rawValue == 1 ? "on" : "off"
+    
     return [
         name: "switch",
         value: value,
@@ -328,7 +331,7 @@ def on() {
         log.error("cannot open because ${linkText} is obstructed")
         return
     }
-
+	
     sendEvent(makeOnOffResult(1))
     "st cmd 0x${device.deviceNetworkId} 1 6 1 {}"
 }
@@ -379,6 +382,8 @@ def setLevel(value) {
     }
 
     sendEvent(name: "level", value: value)
+    sendEvent(name: "openLevel", value: value + "% OPEN")
+    
     if (value > 0) {
         sendEvent(name: "switch", value: "on", descriptionText: "${linkText} is on by setting a level")
     }
