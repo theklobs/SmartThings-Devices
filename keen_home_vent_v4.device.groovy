@@ -90,7 +90,7 @@ metadata {
         }
         
         main "switch"
-        details(["switch", "ventTwentyFive", "ventFifty", "ventSeventyFive", "ventHundred", "ventLevelDown", "ventLevelUp", "temperature", "pressure", "battery", "refresh", "configure"])
+        details(["switch", "ventLevelDown", "ventTwentyFive", "ventFifty", "ventSeventyFive", "ventHundred", "ventLevelUp", "temperature", "pressure", "battery", "refresh", "configure"])
     }
 }
 
