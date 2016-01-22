@@ -27,7 +27,7 @@ metadata {
         multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
             tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
                 attributeState "on", action: "switch.off", label: 'OPEN', icon: "st.vents.vent-open", backgroundColor: "#53a7c0"
-                attributeState "off", action: "switch.on", label: "CLOSED", icon: "st.vents.vent-open", backgroundColor: "#ffffff"
+                attributeState "off", action: "switch.on", label: "CLOSED", icon: "st.vents.vent", backgroundColor: "#ffffff"
                 attributeState "obstructed", action: "clearObstruction", label: "OBSTRUCTION", icon: "st.vents.vent-open", backgroundColor: "#ff0000"
                 attributeState "clearing", action: "", label: "CLEARING", icon: "st.vents.vent-open", backgroundColor: "#ffff33"
             }
