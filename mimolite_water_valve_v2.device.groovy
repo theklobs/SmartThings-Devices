@@ -8,9 +8,9 @@ metadata {
 		capability "Valve"
         capability "Contact Sensor"
         capability "Configuration"
-        attribute "power", "string"
+        
+        attribute "powered", "string"
         attribute "valveState", "string"
-        attribute "powerState", "string"
         
         fingerprint deviceId: "0x1000", inClusters: "0x72,0x86,0x71,0x30,0x31,0x35,0x70,0x85,0x25,0x03"
         
@@ -33,7 +33,7 @@ metadata {
             state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
             state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
         }
-        standardTile("power", "device.power", width: 2, height: 2, inactiveLabel: false) {
+        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
 			state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
 			state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
 		}
@@ -47,7 +47,7 @@ metadata {
 			state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
 		}
         main (["switch", "contact"])
-        details(["switch", "power", "refresh", "configure"])
+        details(["switch", "powered", "refresh", "configure"])
     }
 }
 
@@ -58,11 +58,9 @@ def parse(String description) {
 	log.debug cmd
     if (cmd.CMD == "7105") {				//Mimo sent a power loss report
     	log.debug "Device lost power"
-    	sendEvent(name: "power", value: "powerOff", descriptionText: "$device.displayName lost power")
-        sendEvent(name: "powerState", value: "powerOff")
+    	sendEvent(name: "powered", value: "powerOff", descriptionText: "$device.displayName lost power")
     } else {
-    	sendEvent(name: "power", value: "powerOn", descriptionText: "$device.displayName regained power")
-        sendEvent(name: "powerState", value: "powerOn")
+    	sendEvent(name: "powered", value: "powerOn", descriptionText: "$device.displayName regained power")
     }
 
 	if (cmd) {
@@ -153,6 +151,15 @@ def close() {
     ])
 }
 
+// This is for when the the valve's VALVE capability is used
+def open() {
+	log.debug "Opening Main Water Valve due to a VALVE capability condition"
+	delayBetween([
+        zwave.basicV1.basicSet(value: 0x00).format(),
+        zwave.switchBinaryV1.switchBinaryGet().format()
+    ])
+}
+
 def poll() {
 	log.debug "Executing Poll for Main Water Valve"
 	delayBetween([
@@ -172,7 +179,6 @@ def refresh() {
 		zwave.alarmV1.alarmGet().format() 
 	],100)
 }
-
 
 def configure() {
 	log.debug "Executing Configure for Main Water Valve per user request"
