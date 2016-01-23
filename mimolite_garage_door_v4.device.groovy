@@ -19,9 +19,8 @@ metadata {
 		capability "Door Control"
 		capability "Garage Door Control"
         
-		attribute "power", "string"
-        attribute "contactState", "string"
-        attribute "powerState", "string"        
+		attribute "powered", "string"
+        attribute "contactState", "string"       
         
 		command "on"
 		command "off"
@@ -49,7 +48,7 @@ metadata {
         standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
 			state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
 		}
-        standardTile("power", "device.power", width: 2, height: 2, inactiveLabel: false) {
+        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
 			state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
 			state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ff0000"
 		}
@@ -60,7 +59,7 @@ metadata {
 			state "statusText", label:'${currentValue}'
 		}        
 		main (["switch", "contact"])
-		details(["switch", "power", "refresh", "configure"])
+		details(["switch", "powered", "refresh", "configure"])
     }
 }
 
@@ -74,11 +73,9 @@ def parse(String description) {
     
     if (cmd.CMD == "7105") {				//Mimo sent a power loss report
     	log.debug "Device lost power"
-    	sendEvent(name: "power", value: "powerOff", descriptionText: "$device.displayName lost power")
-        sendEvent(name: "powerState", value: "powerOff")
+    	sendEvent(name: "powered", value: "powerOff", descriptionText: "$device.displayName lost power")
     } else {
-    	sendEvent(name: "power", value: "powerOn", descriptionText: "$device.displayName regained power")
-        sendEvent(name: "powerState", value: "powerOn")
+    	sendEvent(name: "powered", value: "powerOn", descriptionText: "$device.displayName regained power")
     }
     
 	if (cmd) {
@@ -88,7 +85,7 @@ def parse(String description) {
     
     def statusTextmsg = ""
     def timeString = new Date().format("h:mma MM-dd-yyyy", location.timeZone)
-    statusTextmsg = "Last updated: "+timeString
+    statusTextmsg = "${device.currentState('contactState').value}.\nLast updated: "+timeString
     sendEvent("name":"statusText", "value":statusTextmsg)
     
 	return result
@@ -98,11 +95,11 @@ def sensorValueEvent(Short value) {
 	if (value) {
         sendEvent(name: "contact", value: "open")
         sendEvent(name: "switch", value: "doorOpen")
-        sendEvent(name: "contactState", value: "OPEN (tap to close)")
+        sendEvent(name: "contactState", value: "Tap to close")
 	} else {
         sendEvent(name: "contact", value: "closed")
         sendEvent(name: "switch", value: "doorClosed")
-        sendEvent(name: "contactState", value: "CLOSED (tap to open)")
+        sendEvent(name: "contactState", value: "Tap to open")
 	}
 }
 
