@@ -133,7 +133,7 @@ def off() {
     ])
 }
 
-// This is for when the the valve's ALARM capability is used
+// This is for when the the valve's ALARM capability is called
 def both() {
 	log.debug "Closing Main Water Valve due to an ALARM capability condition"
 	delayBetween([
@@ -142,7 +142,7 @@ def both() {
     ])
 }
 
-// This is for when the the valve's VALVE capability is used
+// This is for when the the valve's VALVE capability is called
 def close() {
 	log.debug "Closing Main Water Valve due to a VALVE capability condition"
 	delayBetween([
@@ -151,7 +151,7 @@ def close() {
     ])
 }
 
-// This is for when the the valve's VALVE capability is used
+// This is for when the the valve's VALVE capability is called
 def open() {
 	log.debug "Opening Main Water Valve due to a VALVE capability condition"
 	delayBetween([
