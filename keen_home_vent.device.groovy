@@ -253,9 +253,9 @@ private Map makeLevelResult(rawValue) {
 }
 
 private Map makePressureResult(rawValue) {
-    log.debug 'makePressureResut'
+    log.debug 'makePressureResult'
     def linkText = getLinkText(device)
-	def pascals = rawValue / 10
+    def pascals = rawValue / 10
     def pressval = rawValue / 10 * 0.295300 / 1000
     def xpress = (pressval.toFloat()/1).round(2)
     def result = [
