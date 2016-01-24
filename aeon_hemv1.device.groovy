@@ -110,7 +110,7 @@ def parse(String description) {
     }
 //    if (result) log.debug "Parse returned ${result}"
     def statusTextmsg = ""
-    statusTextmsg = "Min was ${device.currentState('powerOne')?.value}.\nMax was ${device.currentState('powerTwo')?.value}."
+    statusTextmsg = "Min was ${device.currentState('powerOne')?.value}\nMax was ${device.currentState('powerTwo')?.value}"
     sendEvent("name":"statusText", "value":statusTextmsg)
 //    log.debug statusTextmsg
     return result
@@ -186,6 +186,7 @@ def zwaveEvent(physicalgraph.zwave.Command cmd) {
 }
 
 def refresh() {
+    log.debug "Refreshed ${device.name}"
     delayBetween([
     zwave.meterV2.meterGet(scale: 0).format(),
     zwave.meterV2.meterGet(scale: 2).format()
@@ -236,18 +237,21 @@ def resetmaxmin() {
 def configure() {
     log.debug "${device.name} configuring device"
     def cmd = delayBetween([
+//    	zwave.configurationV1.configurationSet(parameterNumber: 255, size: 4, scaledConfigurationValue: 1).format() 	// Performs a complete factory reset.  Use this all by itself and comment out all others below.  Once reset, comment this line out and uncomment the others to go back to normal
+    
         zwave.configurationV1.configurationSet(parameterNumber: 3, size: 1, scaledConfigurationValue: 0).format(),      // Disable selective reporting, so always update based on schedule below <set to 1 to reduce network traffic>
-        zwave.configurationV1.configurationSet(parameterNumber: 4, size: 2, scaledConfigurationValue: 50).format(),     // (DISABLED by first option) Don't send unless watts have changed by 50 <default>
-        zwave.configurationV1.configurationSet(parameterNumber: 8, size: 1, scaledConfigurationValue: 10).format(),     // (DISABLED by first option) Or by 10% <default>
+        zwave.configurationV1.configurationSet(parameterNumber: 4, size: 2, scaledConfigurationValue: 25).format(),     // (DISABLED by first option) Don't send unless watts have changed by 25 <default is 50>
+        zwave.configurationV1.configurationSet(parameterNumber: 8, size: 1, scaledConfigurationValue: 5).format(),     // (DISABLED by first option) Or by 5% <default is 10>
 
-        zwave.configurationV1.configurationSet(parameterNumber: 101, size: 4, scaledConfigurationValue: 4).format(),   // Combined energy in Watts
+        zwave.configurationV1.configurationSet(parameterNumber: 101, size: 4, scaledConfigurationValue: 4).format(),    // Combined energy in Watts
         zwave.configurationV1.configurationSet(parameterNumber: 111, size: 4, scaledConfigurationValue: 15).format(),   // Every 15 Seconds (for Watts)
 
         zwave.configurationV1.configurationSet(parameterNumber: 102, size: 4, scaledConfigurationValue: 8).format(),    // Combined energy in kWh
-        zwave.configurationV1.configurationSet(parameterNumber: 112, size: 4, scaledConfigurationValue: 60).format(),  // every 60 seconds (for kWh)
+        zwave.configurationV1.configurationSet(parameterNumber: 112, size: 4, scaledConfigurationValue: 60).format(),   // every 60 seconds (for kWh)
 
         zwave.configurationV1.configurationSet(parameterNumber: 103, size: 4, scaledConfigurationValue: 0).format(),    // Disable report 3
-        zwave.configurationV1.configurationSet(parameterNumber: 113, size: 4, scaledConfigurationValue: 0).format()   // Disable report 3
+        zwave.configurationV1.configurationSet(parameterNumber: 113, size: 4, scaledConfigurationValue: 0).format()     // Disable report 3
+        
     ])
 
     cmd
