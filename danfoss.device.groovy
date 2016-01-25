@@ -31,13 +31,13 @@ metadata {
 			tileAttribute ("device.heatingSetpoint", key: "PRIMARY_CONTROL") {
 				attributeState("heat", icon:"st.tesla.tesla-hvac", label:'${currentValue}°', unit:"C",
                 backgroundColors:[
-                    [value: 31, color: "#153591"],
-                    [value: 44, color: "#1e9cbb"],
-                    [value: 59, color: "#90d2a7"],
-                    [value: 74, color: "#44b621"],
-                    [value: 84, color: "#f1d801"],
-                    [value: 95, color: "#d04e00"],
-                    [value: 96, color: "#bc2323"]
+                    [value: 0, color: "#153591"],
+                    [value: 10, color: "#1e9cbb"],
+                    [value: 15, color: "#90d2a7"],
+                    [value: 21, color: "#44b621"],
+                    [value: 27, color: "#f1d801"],
+                    [value: 30, color: "#d04e00"],
+                    [value: 33, color: "#bc2323"]
                 ]
             )
 			}
