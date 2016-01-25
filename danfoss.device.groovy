@@ -27,9 +27,9 @@ metadata {
 	}
 
 	tiles (scale: 2){
-		multiAttributeTile(name:"heatingSetpoint", type: "generic", width: 6, height: 4, canChangeIcon: true){
-			tileAttribute ("device.heatingSetpoint", key: "PRIMARY_CONTROL") {
-				attributeState("heat", icon:"st.tesla.tesla-hvac", label:'${currentValue}°', unit:"C",
+		multiAttributeTile(name:"temperature", type: "thermostat", width: 6, height: 4){
+			tileAttribute ("device.temperature", key: "PRIMARY_CONTROL") {
+				attributeState("temperature", icon:"st.tesla.tesla-hvac", label:'${currentValue}°', unit:"F",
                 backgroundColors:[
                     [value: 0, color: "#153591"],
                     [value: 10, color: "#1e9cbb"],
