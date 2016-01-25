@@ -58,6 +58,7 @@ metadata {
 
 def parse(String description)
 {
+	log.debug "description: $description"
 	def map = createEvent(zwaveEvent(zwave.parse(description, [0x42:1, 0x43:2, 0x31: 3])))
 	if (!map) {
 		return null
