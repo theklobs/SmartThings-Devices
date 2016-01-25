@@ -482,6 +482,7 @@ def off() {
 }
 
 def poll() {
+	log.debug "Refreshing."
 	delayBetween([
 		zwave.sensorMultilevelV3.sensorMultilevelGet().format(), // current temperature
 		zwave.thermostatSetpointV1.thermostatSetpointGet(setpointType: 1).format(),
@@ -494,6 +495,7 @@ def poll() {
 }
 
 def configure() {
+	log.debug "Performing configuration settings."
 	delayBetween([
 		zwave.thermostatModeV2.thermostatModeSupportedGet().format(),
 		zwave.thermostatFanModeV3.thermostatFanModeSupportedGet().format(),
