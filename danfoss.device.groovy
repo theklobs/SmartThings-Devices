@@ -71,9 +71,15 @@ metadata {
 		}
 		valueTile("battery", "device.battery", decoration: "flat", width: 2, height: 2) {
 			state "battery", label:'${currentValue}% battery', unit:""
+		}
+		standardTile("refresh", "device.thermostatMode", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+			state "default", action:"polling.poll", icon:"st.secondary.refresh"
+		}
+		standardTile("configure", "device.configure", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+			state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
 		}        
 		main "temperature"
-		details(["temperature", "heatSliderControl", "heatingSetPoint", "battery"])
+		details(["temperature", "heatSliderControl", "heatingSetPoint", "battery", "refresh", "configure"])
 	}
 }
 
