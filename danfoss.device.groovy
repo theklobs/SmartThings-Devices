@@ -45,14 +45,17 @@ metadata {
 //           		attributeState "heat", action:"quickSetHeat"       		
 //            }
 		}
-		valueTile("battery", "device.battery", decoration: "flat", width: 2, height: 2) {
-			state "battery", label:'${currentValue}% battery', unit:""
-		}
-		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", height: 2, width: 2, inactiveLabel: false) {
+		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", width: 4, height: 2, inactiveLabel: false) {
 			state "setHeatingSetpoint", action:"quickSetHeat", backgroundColor:"#d04e00"
 		}
+		valueTile("heatingSetpoint", "device.heatingSetpoint", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+			state "heat", label:'${currentValue}° heat', backgroundColor:"#ffffff"
+		}
+		valueTile("battery", "device.battery", decoration: "flat", width: 2, height: 2) {
+			state "battery", label:'${currentValue}% battery', unit:""
+		}        
 		main "heatingSetpoint"
-		details(["heatingSetpoint", "heatSliderControl", "battery"])
+		details(["heatingSetpoint", "heatSliderControl", "heatingSetPoint", "battery"])
 	}
 }
 
