@@ -261,7 +261,7 @@ private Map makePressureResult(rawValue) {
     def result = [
         name: 'pressure',
         descriptionText: "${linkText} pressure is ${xpress}Hg",
-        value: xpress
+        value: pascals
     ]
 
     return result
