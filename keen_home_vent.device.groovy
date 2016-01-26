@@ -260,7 +260,7 @@ private Map makePressureResult(rawValue) {
     def xpress = (pressval.toFloat()/1).round(2)
     def result = [
         name: 'pressure',
-        descriptionText: "${linkText} pressure is ${xpress}",
+        descriptionText: "${linkText} pressure is ${pascals}",
         value: pascals
     ]
 
