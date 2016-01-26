@@ -74,7 +74,7 @@ metadata {
             ]
         }
         valueTile("pressure", "device.pressure", inactiveLabel: false, width: 2, height: 2, decoration: "flat") {
-            state "pressure", label: 'Pressure\n${currentValue}', backgroundColor:"#ffffff"
+            state "pressure", label: 'Pressure\n${currentValue}Pa', backgroundColor:"#ffffff"
         }        
         valueTile("battery", "device.battery", inactiveLabel: false, width: 2, height: 2, decoration: "flat") {
             state "battery", label: 'Battery \n${currentValue}%', backgroundColor:"#ffffff"
@@ -260,7 +260,7 @@ private Map makePressureResult(rawValue) {
     def xpress = (pressval.toFloat()/1).round(2)
     def result = [
         name: 'pressure',
-        descriptionText: "${linkText} pressure is ${pascals}",
+        descriptionText: "${linkText} pressure is ${pascals}Pa",
         value: pascals
     ]
 
