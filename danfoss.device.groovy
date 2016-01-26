@@ -45,7 +45,7 @@ metadata {
 	}
 
 	tiles (scale: 2){
-		multiAttributeTile(name:"temperature", type: "thermostat", width: 6, height: 4){
+		multiAttributeTile(name:"temperature", type: "generic", width: 6, height: 4){
 			tileAttribute ("device.temperature", key: "PRIMARY_CONTROL") {
 				attributeState("temperature", icon:"st.tesla.tesla-hvac", label:'${currentValue}°', unit:"F",
                 backgroundColors:[
@@ -79,7 +79,7 @@ metadata {
 			state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
 		}        
 		main "temperature"
-		details(["temperature", "heatSliderControl", "heatingSetPoint", "battery", "refresh", "configure"])
+		details(["temperature", "heatSliderControl", "heatingSetpoint", "battery", "refresh", "configure"])
 	}
 }
 
