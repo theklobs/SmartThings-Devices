@@ -45,7 +45,7 @@ metadata {
 	}
 
 	tiles (scale: 2){
-		multiAttributeTile(name:"temperature", type: "generic", width: 6, height: 4){
+		multiAttributeTile(name:"temperature", type: "lighting", width: 6, height: 4){
 			tileAttribute ("device.temperature", key: "PRIMARY_CONTROL") {
 				attributeState("temperature", icon:"st.Weather.weather2", label:'${currentValue}°', unit:"C",
                 backgroundColors:[
