@@ -74,7 +74,7 @@ metadata {
             ]
         }
         valueTile("pressure", "device.pressure", inactiveLabel: false, width: 2, height: 2, decoration: "flat") {
-            state "pressure", label: 'Pressure\n${currentValue}Hg', backgroundColor:"#ffffff"
+            state "pressure", label: 'Pressure\n${currentValue}', backgroundColor:"#ffffff"
         }        
         valueTile("battery", "device.battery", inactiveLabel: false, width: 2, height: 2, decoration: "flat") {
             state "battery", label: 'Battery \n${currentValue}%', backgroundColor:"#ffffff"
