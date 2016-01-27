@@ -29,7 +29,7 @@ metadata {
 	tiles (scale: 2){
 		multiAttributeTile(name:"heatingSetpoint", type: "lighting", width: 6, height: 4, canChangeIcon: true){
 			tileAttribute ("device.heatingSetpoint", key: "PRIMARY_CONTROL") {
-				attributeState("heat", icon:"st.tesla.tesla-hvac", label:'${currentValue}°', unit:"C",
+				attributeState("heat", icon:"st.tesla.tesla-hvac", label:'${currentValue}°C', unit:"C",
                 backgroundColors:[
                     [value: 0, color: "#153591"],
                     [value: 10, color: "#1e9cbb"],
