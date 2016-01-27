@@ -45,7 +45,7 @@ metadata {
 //           		attributeState "heat", action:"quickSetHeat"       		
 //            }
 		}
-		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", width: 6, height: 2, inactiveLabel: false) {
+		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", width: 6, height: 2, inactiveLabel: false, range:"(10..35)") {
 			state "setHeatingSetpoint", action:"quickSetHeat", backgroundColor:"#d04e00"
 		}
 		valueTile("battery", "device.battery", decoration: "flat", width: 3, height: 2) {
