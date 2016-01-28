@@ -5,7 +5,7 @@
 */
 metadata {
 	// Automatically generated. Make future change here.
-	definition (name: "My Thermostat v7", namespace: "jscgs350", author: "jscgs350")
+	definition (name: "My Thermostat v8", namespace: "jscgs350", author: "jscgs350")
     { 
 		capability "Refresh"
 		capability "Actuator"
@@ -41,7 +41,7 @@ metadata {
 	tiles(scale: 2) {
 		multiAttributeTile(name:"temperature", type: "lighting", width: 6, height: 4){
 			tileAttribute ("device.temperature", key: "PRIMARY_CONTROL") {
-				attributeState("temperature", icon:"st.tesla.tesla-hvac", label:'${currentValue}°', unit:"F",
+				attributeState("temperature", icon:"st.Weather.weather2", label:'${currentValue}°', unit:"F",
                 backgroundColors:[
                     [value: 31, color: "#153591"],
                     [value: 44, color: "#1e9cbb"],
@@ -81,10 +81,10 @@ metadata {
 
 //Heating Set Point Controls
         standardTile("heatLevelUp", "device.heatingSetpoint", width: 1, height: 1, inactiveLabel: false, decoration: "flat") {
-            state "heatLevelUp", label:'Heat', action:"heatLevelUp", icon:"st.thermostat.thermostat-up"//, backgroundColor:"#d04e00"
+            state "heatLevelUp", label:'', action:"heatLevelUp", icon:"st.thermostat.thermostat-up"//, backgroundColor:"#d04e00"
         }
 		standardTile("heatLevelDown", "device.heatingSetpoint", width: 1, height: 1, inactiveLabel: false, decoration: "flat") {
-            state "heatLevelDown", label:'Heat', action:"heatLevelDown", icon:"st.thermostat.thermostat-down"//, backgroundColor:"#d04e00"
+            state "heatLevelDown", label:'', action:"heatLevelDown", icon:"st.thermostat.thermostat-down"//, backgroundColor:"#d04e00"
         }
         valueTile("heatingSetpoint", "device.heatingSetpoint", width: 2, height: 2, inactiveLabel: false) {
 			state "heat", label:'${currentValue}°', unit:"F",
@@ -103,10 +103,10 @@ metadata {
 
 //Cooling Set Point Controls
         standardTile("coolLevelUp", "device.coolingSetpoint", width: 1, height: 1, inactiveLabel: false, decoration: "flat") {
-            state "coolLevelUp", label:'Cool', action:"coolLevelUp", icon:"st.thermostat.thermostat-up"//, backgroundColor: "#1e9cbb"
+            state "coolLevelUp", label:'', action:"coolLevelUp", icon:"st.thermostat.thermostat-up"//, backgroundColor: "#1e9cbb"
         }
 		standardTile("coolLevelDown", "device.coolingSetpoint", width: 1, height: 1, inactiveLabel: false, decoration: "flat") {
-            state "coolLevelDown", label:'Cool', action:"coolLevelDown", icon:"st.thermostat.thermostat-down"//, backgroundColor: "#1e9cbb"
+            state "coolLevelDown", label:'', action:"coolLevelDown", icon:"st.thermostat.thermostat-down"//, backgroundColor: "#1e9cbb"
         }
 		valueTile("coolingSetpoint", "device.coolingSetpoint", width: 2, height: 2, inactiveLabel: false) {
 			state "cool", label:'${currentValue}°', unit:"F",
@@ -152,7 +152,7 @@ metadata {
 // , "heatLevelUp", "coolLevelUp", "heatingSetpoint", "coolingSetpoint", "heatLevelDown", "coolLevelDown"
 
 		main "temperature"
-        details(["temperature", "heatingSetpoint", "heatLevelUp", "coolLevelUp", "coolingSetpoint", "heatLevelDown", "coolLevelDown", "heatSliderControl", "coolSliderControl", "fanon", "fanauto", "fancir", "modeoff", "modeheat", "modecool", "modeauto", "refresh", "configure"])
+        details(["temperature", "heatingSetpoint", "heatLevelUp", "heatSliderControl", "heatLevelDown", "coolingSetpoint", "coolLevelUp", "coolSliderControl", "coolLevelDown", "fanon", "fanauto", "fancir", "modeoff", "modeheat", "modecool", "modeauto", "refresh", "configure"])
 	}
 }
 
@@ -210,7 +210,7 @@ def parse(String description)
 	}
 
 	def statusTextmsg = ""
-    statusTextmsg = "Unit is ${device.currentState('currentState').value}.\nFan is in ${device.currentState('currentfanMode').value} and is ${device.currentState('thermostatFanState').value}."
+    statusTextmsg = "Unit is ${device.currentState('currentState').value}. Fan is in ${device.currentState('currentfanMode').value} and is ${device.currentState('thermostatFanState').value}."
     sendEvent("name":"statusText", "value":statusTextmsg)
     log.debug statusTextmsg
     
