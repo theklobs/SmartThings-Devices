@@ -39,9 +39,9 @@ metadata {
 
 //Thermostat Temp and State
 	tiles(scale: 2) {
-		multiAttributeTile(name:"temperature", type: "lighting", width: 6, height: 4){
+		multiAttributeTile(name:"temperature", type: "lighting", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
 			tileAttribute ("device.temperature", key: "PRIMARY_CONTROL") {
-				attributeState("temperature", icon:"st.Weather.weather2", label:'${currentValue}°', unit:"F",
+				attributeState("temperature", label:'${currentValue}°', unit:"F",
                 backgroundColors:[
                     [value: 31, color: "#153591"],
                     [value: 44, color: "#1e9cbb"],
@@ -151,7 +151,7 @@ metadata {
 
 // , "heatLevelUp", "coolLevelUp", "heatingSetpoint", "coolingSetpoint", "heatLevelDown", "coolLevelDown"
 
-		main "temperature"
+		main (["temperature"])
         details(["temperature", "heatingSetpoint", "heatLevelUp", "heatSliderControl", "heatLevelDown", "coolingSetpoint", "coolLevelUp", "coolSliderControl", "coolLevelDown", "fanon", "fanauto", "fancir", "modeoff", "modeheat", "modecool", "modeauto", "refresh", "configure"])
 	}
 }
@@ -210,7 +210,7 @@ def parse(String description)
 	}
 
 	def statusTextmsg = ""
-    statusTextmsg = "Unit is ${device.currentState('currentState').value}. Fan is in ${device.currentState('currentfanMode').value} and is ${device.currentState('thermostatFanState').value}."
+    statusTextmsg = "Unit is ${device.currentState('currentState').value}.\nFan is in ${device.currentState('currentfanMode').value} and is ${device.currentState('thermostatFanState').value}."
     sendEvent("name":"statusText", "value":statusTextmsg)
     log.debug statusTextmsg
     
