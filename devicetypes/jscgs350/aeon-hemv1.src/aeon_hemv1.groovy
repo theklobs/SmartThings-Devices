@@ -11,6 +11,10 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  *  Aeon Home Energy Meter v1 (US)
+ * 
+ * Updates:
+ * -------
+ * 02-11-2016 - Added Updates section
  *
  */
 metadata {
