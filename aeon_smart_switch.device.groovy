@@ -228,8 +228,8 @@ def configure() {
     if (state.debug) log.debug "${device.name} configure"
 	delayBetween([
     zwave.configurationV1.configurationSet(parameterNumber: 3, size: 1, scaledConfigurationValue: 1).format(),      // Disable selective reporting, so always update based on schedule below <set to 1 to reduce network traffic>
-    zwave.configurationV1.configurationSet(parameterNumber: 4, size: 2, scaledConfigurationValue: 2).format(),     // (DISABLED by first option) Don't send unless watts have changed by 50 <default>
-    zwave.configurationV1.configurationSet(parameterNumber: 8, size: 1, scaledConfigurationValue: 1).format(),     // (DISABLED by first option) Or by 10% <default>
+    zwave.configurationV1.configurationSet(parameterNumber: 4, size: 2, scaledConfigurationValue: 5).format(),     // (DISABLED by first option) Don't send unless watts have changed by 50 <default>
+    zwave.configurationV1.configurationSet(parameterNumber: 8, size: 1, scaledConfigurationValue: 10).format(),     // (DISABLED by first option) Or by 10% <default>
     
     zwave.configurationV1.configurationSet(parameterNumber: 101, size: 4, scaledConfigurationValue: 4).format(),   // Combined energy in Watts
     zwave.configurationV1.configurationSet(parameterNumber: 111, size: 4, scaledConfigurationValue: 15).format(),   // Every 15 Seconds (for Watts)
