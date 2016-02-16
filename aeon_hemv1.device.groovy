@@ -11,10 +11,10 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  *  Aeon Home Energy Meter v1 (US)
- * 
- * Updates:
- * --------
- * 02-11-2016 - Added Updates section
+ *
+ *  Updates:
+ *  -------
+ *  02-15-2016 : Removed posting to the Activity Feed in the phone app and event log.
  *
  */
 metadata {
@@ -130,39 +130,39 @@ def zwaveEvent(physicalgraph.zwave.commands.meterv1.MeterReport cmd) {
             newValue = cmd.scaledMeterValue
             if (newValue != state.energyValue) {
                 dispValue = String.format("%5.2f",newValue)+"\nkWh"
-                sendEvent(name: "energyDisp", value: dispValue as String, unit: "")
+                sendEvent(name: "energyDisp", value: dispValue as String, unit: "", displayed: false)
                 state.energyValue = newValue
                 BigDecimal costDecimal = newValue * ( kWhCost as BigDecimal)
                 def costDisplay = String.format("%3.2f",costDecimal)
-                sendEvent(name: "energyTwo", value: "Cost\n\$${costDisplay}", unit: "")
-                [name: "energy", value: newValue, unit: "kWh"]
+                sendEvent(name: "energyTwo", value: "Cost\n\$${costDisplay}", unit: "", displayed: false)
+                [name: "energy", value: newValue, unit: "kWh", displayed: false]
             }
         } else if (cmd.scale == 1) {
             newValue = cmd.scaledMeterValue
             if (newValue != state.energyValue) {
                 dispValue = String.format("%5.2f",newValue)+"\nkVAh"
-                sendEvent(name: "energyDisp", value: dispValue as String, unit: "")
+                sendEvent(name: "energyDisp", value: dispValue as String, unit: "", displayed: false)
                 state.energyValue = newValue
-                [name: "energy", value: newValue, unit: "kVAh"]
+                [name: "energy", value: newValue, unit: "kVAh", displayed: false]
             }
         }
         else if (cmd.scale==2) {                
             newValue = Math.round( cmd.scaledMeterValue )       // really not worth the hassle to show decimals for Watts
             if (newValue != state.powerValue) {
                 dispValue = newValue+"w"
-                sendEvent(name: "powerDisp", value: dispValue as String, unit: "")
+                sendEvent(name: "powerDisp", value: dispValue as String, unit: "", displayed: false)
                 if (newValue < state.powerLow) {
                     dispValue = newValue+"w"+" on "+timeString
-                    sendEvent(name: "powerOne", value: dispValue as String, unit: "")
+                    sendEvent(name: "powerOne", value: dispValue as String, unit: "", displayed: false)
                     state.powerLow = newValue
                 }
                 if (newValue > state.powerHigh) {
                     dispValue = newValue+"w"+" on "+timeString
-                    sendEvent(name: "powerTwo", value: dispValue as String, unit: "")
+                    sendEvent(name: "powerTwo", value: dispValue as String, unit: "", displayed: false)
                     state.powerHigh = newValue
                 }
                 state.powerValue = newValue
-                [name: "power", value: newValue, unit: "W"]
+                [name: "power", value: newValue, unit: "W", displayed: false]
             }
         }
     }
@@ -243,9 +243,9 @@ def configure() {
     def cmd = delayBetween([
 //    	zwave.configurationV1.configurationSet(parameterNumber: 255, size: 4, scaledConfigurationValue: 1).format() 	// Performs a complete factory reset.  Use this all by itself and comment out all others below.  Once reset, comment this line out and uncomment the others to go back to normal
     
-        zwave.configurationV1.configurationSet(parameterNumber: 3, size: 1, scaledConfigurationValue: 1).format(),      // Disable selective reporting, so always update based on schedule below <set to 1 to reduce network traffic>
-        zwave.configurationV1.configurationSet(parameterNumber: 4, size: 2, scaledConfigurationValue: 50).format(),     // (DISABLED by first option) Don't send unless watts have changed by xx <default is 50>
-        zwave.configurationV1.configurationSet(parameterNumber: 8, size: 1, scaledConfigurationValue: 10).format(),     // (DISABLED by first option) Or by x% <default is 10>
+        zwave.configurationV1.configurationSet(parameterNumber: 3, size: 1, scaledConfigurationValue: 0).format(),      // Disable selective reporting, so always update based on schedule below <set to 1 to reduce network traffic>
+        zwave.configurationV1.configurationSet(parameterNumber: 4, size: 2, scaledConfigurationValue: 10).format(),     // (DISABLED by first option) Don't send unless watts have changed by xx <default is 50>
+        zwave.configurationV1.configurationSet(parameterNumber: 8, size: 1, scaledConfigurationValue: 5).format(),     // (DISABLED by first option) Or by x% <default is 10>
 
         zwave.configurationV1.configurationSet(parameterNumber: 101, size: 4, scaledConfigurationValue: 4).format(),    // Combined energy in Watts
         zwave.configurationV1.configurationSet(parameterNumber: 111, size: 4, scaledConfigurationValue: 15).format(),   // Every 15 Seconds (for Watts)
