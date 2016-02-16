@@ -1,3 +1,22 @@
+/**
+ *  Aeon Metering Switch
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License. You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
+ *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
+ *  for the specific language governing permissions and limitations under the License.
+ *
+ *  Aeon Metering Switch (US)
+ *
+ *  Updates:
+ *  -------
+ *  02-16-2016 : Removed posting to the Activity Feed (Recently tab) in the phone app and event log.
+ *
+ */
 metadata {
 	// Automatically generated. Make future change here.
 	definition (name: "My Aeon Metering Switch v2", namespace: "jscgs350", author: "SmartThings") {
@@ -113,28 +132,28 @@ def zwaveEvent(physicalgraph.zwave.commands.meterv1.MeterReport cmd) {
     def newValue
     def timeString = new Date().format("yyyy-MM-dd h:mm a", location.timeZone)
 	if (cmd.scale == 0) {
-		[name: "energy", value: cmd.scaledMeterValue, unit: "kWh"]
+		[name: "energy", value: cmd.scaledMeterValue, unit: "kWh", displayed: false]
 	} else if (cmd.scale == 1) {
-		[name: "energy", value: cmd.scaledMeterValue, unit: "kVAh"]
+		[name: "energy", value: cmd.scaledMeterValue, unit: "kVAh", displayed: false]
 	}
 	else {
             newValue = Math.round( cmd.scaledMeterValue )       // really not worth the hassle to show decimals for Watts
             if (newValue != state.powerValue) {
                 dispValue = newValue+"w"
-                sendEvent(name: "powerDisp", value: dispValue as String, unit: "")
+                sendEvent(name: "powerDisp", value: dispValue as String, unit: "", displayed: false)
                 
                 if (newValue < state.powerLow) {
                     dispValue = newValue+"w"+"on "+timeString
-                    sendEvent(name: "powerOne", value: dispValue as String, unit: "")
+                    sendEvent(name: "powerOne", value: dispValue as String, unit: "", displayed: false)
                     state.powerLow = newValue
                 }
                 if (newValue > state.powerHigh) {
                     dispValue = newValue+"w "+"on "+timeString
-                    sendEvent(name: "powerTwo", value: dispValue as String, unit: "")
+                    sendEvent(name: "powerTwo", value: dispValue as String, unit: "", displayed: false)
                     state.powerHigh = newValue
                 }
                 state.powerValue = newValue
-                [name: "power", value: newValue, unit: "W"]
+                [name: "power", value: newValue, unit: "W", displayed: false]
             }
 	}
 }
