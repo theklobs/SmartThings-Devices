@@ -1,7 +1,12 @@
 /*
-** This device type can be used with any typical zwave thermostat with little, if any, modifications.  It was modeled after the default ST device type.
-** If used with an Evolve T100R, just enable cycler mode on the thermo under advanced settings to allow ** the Circulate tile to work, otherwise 
-** you'll just be able to only use Fan Auto and Fan On.
+ * This device type can be used with any typical zwave thermostat with little, if any, modifications.  It was modeled after the default ST device type.
+ * If used with an Evolve T100R, just enable cycler mode on the thermo under advanced settings to allow ** the Circulate tile to work, otherwise 
+ * you'll just be able to only use Fan Auto and Fan On.
+ *
+ *  Updates:
+ *  -------
+ *  02-16-2016 : Removed limiting units to just "F", and adjusted slider range to account for "C" or "F".
+ *
 */
 metadata {
 	// Automatically generated. Make future change here.
@@ -41,7 +46,7 @@ metadata {
 	tiles(scale: 2) {
 		multiAttributeTile(name:"temperature", type: "lighting", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
 			tileAttribute ("device.temperature", key: "PRIMARY_CONTROL") {
-				attributeState("temperature", label:'${currentValue}°', unit:"F",
+				attributeState("temperature", label:'${currentValue}°',
                 backgroundColors:[
                     [value: 31, color: "#153591"],
                     [value: 44, color: "#1e9cbb"],
@@ -81,46 +86,30 @@ metadata {
 
 //Heating Set Point Controls
         standardTile("heatLevelUp", "device.heatingSetpoint", width: 1, height: 1, inactiveLabel: false, decoration: "flat") {
-            state "heatLevelUp", label:'', action:"heatLevelUp", icon:"st.thermostat.thermostat-up"//, backgroundColor:"#d04e00"
+            state "heatLevelUp", label:'', action:"heatLevelUp", icon:"st.thermostat.thermostat-up"
         }
 		standardTile("heatLevelDown", "device.heatingSetpoint", width: 1, height: 1, inactiveLabel: false, decoration: "flat") {
-            state "heatLevelDown", label:'', action:"heatLevelDown", icon:"st.thermostat.thermostat-down"//, backgroundColor:"#d04e00"
+            state "heatLevelDown", label:'', action:"heatLevelDown", icon:"st.thermostat.thermostat-down"
         }
         valueTile("heatingSetpoint", "device.heatingSetpoint", width: 2, height: 2, inactiveLabel: false) {
-			state "heat", label:'${currentValue}°', unit:"F",
-            	backgroundColors:[
-					[value: 40, color: "#f49b88"],
-					[value: 50, color: "#f28770"],
-					[value: 60, color: "#f07358"],
-					[value: 70, color: "#ee5f40"],
-					[value: 80, color: "#ec4b28"],
-					[value: 90, color: "#ea3811"]
-				]
+			state "heat", label:'${currentValue}°', backgroundColor:"#d04e00"
 		}
-		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false, range:"(60..90)") {
+		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false, range:"(15..90)") {
 			state "setHeatingSetpoint", action:"quickSetHeat", backgroundColor:"#d04e00"
 		}
 
 //Cooling Set Point Controls
         standardTile("coolLevelUp", "device.coolingSetpoint", width: 1, height: 1, inactiveLabel: false, decoration: "flat") {
-            state "coolLevelUp", label:'', action:"coolLevelUp", icon:"st.thermostat.thermostat-up"//, backgroundColor: "#1e9cbb"
+            state "coolLevelUp", label:'', action:"coolLevelUp", icon:"st.thermostat.thermostat-up"
         }
 		standardTile("coolLevelDown", "device.coolingSetpoint", width: 1, height: 1, inactiveLabel: false, decoration: "flat") {
-            state "coolLevelDown", label:'', action:"coolLevelDown", icon:"st.thermostat.thermostat-down"//, backgroundColor: "#1e9cbb"
+            state "coolLevelDown", label:'', action:"coolLevelDown", icon:"st.thermostat.thermostat-down"
         }
 		valueTile("coolingSetpoint", "device.coolingSetpoint", width: 2, height: 2, inactiveLabel: false) {
-			state "cool", label:'${currentValue}°', unit:"F",
-            	backgroundColors:[
-					[value: 40, color: "#88e1f4"],
-					[value: 50, color: "#70dbf2"],
-					[value: 60, color: "#58d5f0"],
-					[value: 70, color: "#40cfee"],
-					[value: 80, color: "#28c9ec"],
-					[value: 90, color: "#11c3ea"]
-				]
+			state "cool", label:'${currentValue}°', backgroundColor: "#53a7c0"
 		}
-		controlTile("coolSliderControl", "device.coolingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false, range:"(60..90)") {
-			state "setCoolingSetpoint", action:"quickSetCool", backgroundColor: "#1e9cbb"
+		controlTile("coolSliderControl", "device.coolingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false, range:"(15..90)") {
+			state "setCoolingSetpoint", action:"quickSetCool", backgroundColor: "#53a7c0"
 		}
 
 //Fan Mode Control        
@@ -148,8 +137,6 @@ metadata {
         valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
 			state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
 		}
-
-// , "heatLevelUp", "coolLevelUp", "heatingSetpoint", "coolingSetpoint", "heatLevelDown", "coolLevelDown"
 
 		main (["temperature"])
         details(["temperature", "heatingSetpoint", "heatLevelUp", "heatSliderControl", "heatLevelDown", "coolingSetpoint", "coolLevelUp", "coolSliderControl", "coolLevelDown", "fanon", "fanauto", "fancir", "modeoff", "modeheat", "modecool", "modeauto", "refresh", "configure"])
