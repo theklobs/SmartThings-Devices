@@ -94,7 +94,7 @@ metadata {
         valueTile("heatingSetpoint", "device.heatingSetpoint", width: 2, height: 2, inactiveLabel: false) {
 			state "heat", label:'${currentValue}°', backgroundColor:"#d04e00"
 		}
-		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false {
+		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false, range:"(60..80)") {
 			state "setHeatingSetpoint", action:"quickSetHeat", backgroundColor:"#d04e00"
 		}
 
@@ -108,7 +108,7 @@ metadata {
 		valueTile("coolingSetpoint", "device.coolingSetpoint", width: 2, height: 2, inactiveLabel: false) {
 			state "cool", label:'${currentValue}°', backgroundColor: "#53a7c0"
 		}
-		controlTile("coolSliderControl", "device.coolingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false {
+		controlTile("coolSliderControl", "device.coolingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false, range:"(60..80)") {
 			state "setCoolingSetpoint", action:"quickSetCool", backgroundColor: "#53a7c0"
 		}
 
@@ -411,7 +411,7 @@ def heatLevelUp(){
 
 def heatLevelDown(){
     int nextLevel = device.currentValue("heatingSetpoint") - 1
-    
+
     log.debug "Setting heat set point down to: ${nextLevel}"
     setHeatingSetpoint(nextLevel)
 }
@@ -457,7 +457,7 @@ def coolLevelUp(){
 
 def coolLevelDown(){
     int nextLevel = device.currentValue("coolingSetpoint") - 1
-    
+
     log.debug "Setting cool set point down to: ${nextLevel}"
     setCoolingSetpoint(nextLevel)
 }
