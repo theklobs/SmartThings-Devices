@@ -15,6 +15,7 @@
  *  Updates:
  *  -------
  *  02-15-2016 : Removed posting to the Activity Feed in the phone app and event log.
+ *  02-17-2017 : Fixed preferences for kWh cost from string to number.
  *
  */
 metadata {
@@ -101,7 +102,7 @@ metadata {
         }
 
         preferences {
-            input "kWhCost", "string", title: "\$/kWh (0.16)", defaultValue: "0.16" as String, displayDuringSetup: true
+            input "kWhCost", "number", title: "\$/kWh (0.16)", defaultValue: "0.16" as String, displayDuringSetup: true
         }
 }
 
