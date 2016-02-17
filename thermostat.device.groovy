@@ -6,6 +6,7 @@
  *  Updates:
  *  -------
  *  02-16-2016 : Removed limiting units to just "F", and adjusted slider range to account for "C" or "F".
+ *  02-17-2016 : Removed any reference to ranges for sliders or the up/down arrow limits.
  *
 */
 metadata {
