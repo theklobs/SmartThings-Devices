@@ -401,17 +401,12 @@ def zwaveEvent(physicalgraph.zwave.Command cmd) {
 
 def heatLevelUp(){
     int nextLevel = device.currentValue("heatingSetpoint") + 1
-    
-    if( nextLevel > 90){
-    	nextLevel = 90
-    }
     log.debug "Setting heat set point up to: ${nextLevel}"
     setHeatingSetpoint(nextLevel)
 }
 
 def heatLevelDown(){
     int nextLevel = device.currentValue("heatingSetpoint") - 1
-
     log.debug "Setting heat set point down to: ${nextLevel}"
     setHeatingSetpoint(nextLevel)
 }
@@ -447,17 +442,12 @@ def setHeatingSetpoint(Double degrees, Integer delay = 30000) {
 
 def coolLevelUp(){
     int nextLevel = device.currentValue("coolingSetpoint") + 1
-    
-    if( nextLevel > 99){
-    	nextLevel = 99
-    }
     log.debug "Setting cool set point up to: ${nextLevel}"
     setCoolingSetpoint(nextLevel)
 }
 
 def coolLevelDown(){
     int nextLevel = device.currentValue("coolingSetpoint") - 1
-
     log.debug "Setting cool set point down to: ${nextLevel}"
     setCoolingSetpoint(nextLevel)
 }
