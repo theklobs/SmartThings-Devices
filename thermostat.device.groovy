@@ -412,9 +412,6 @@ def heatLevelUp(){
 def heatLevelDown(){
     int nextLevel = device.currentValue("heatingSetpoint") - 1
     
-    if( nextLevel < 40){
-    	nextLevel = 40
-    }
     log.debug "Setting heat set point down to: ${nextLevel}"
     setHeatingSetpoint(nextLevel)
 }
@@ -461,9 +458,6 @@ def coolLevelUp(){
 def coolLevelDown(){
     int nextLevel = device.currentValue("coolingSetpoint") - 1
     
-    if( nextLevel < 50){
-    	nextLevel = 50
-    }
     log.debug "Setting cool set point down to: ${nextLevel}"
     setCoolingSetpoint(nextLevel)
 }
