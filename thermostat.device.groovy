@@ -94,7 +94,7 @@ metadata {
         valueTile("heatingSetpoint", "device.heatingSetpoint", width: 2, height: 2, inactiveLabel: false) {
 			state "heat", label:'${currentValue}°', backgroundColor:"#d04e00"
 		}
-		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false, range:"(15..90)") {
+		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false {
 			state "setHeatingSetpoint", action:"quickSetHeat", backgroundColor:"#d04e00"
 		}
 
@@ -108,7 +108,7 @@ metadata {
 		valueTile("coolingSetpoint", "device.coolingSetpoint", width: 2, height: 2, inactiveLabel: false) {
 			state "cool", label:'${currentValue}°', backgroundColor: "#53a7c0"
 		}
-		controlTile("coolSliderControl", "device.coolingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false, range:"(15..90)") {
+		controlTile("coolSliderControl", "device.coolingSetpoint", "slider", height: 2, width: 3, inactiveLabel: false {
 			state "setCoolingSetpoint", action:"quickSetCool", backgroundColor: "#53a7c0"
 		}
 
